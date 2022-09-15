@@ -1,9 +1,16 @@
 require('dotenv').config()
+const path = require('path');
 const express = require('express')
 const app = express()
 const port = process.env.port || 8080
 
-// TODO: check how to not cache index.html
+app.get('/', (request, response) => {
+  response.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  response.header('Expires', '-1');
+  response.header('Pragma', 'no-cache');
+  response.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
 app.use(express.static('public'))
 
 app.get('/hello', (req, res) => {
