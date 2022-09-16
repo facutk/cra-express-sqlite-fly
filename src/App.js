@@ -9,7 +9,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const response = await fetch("/foo");
+      const response = await fetch("/hits");
       const dataJson = await response.json();
 
       setData(dataJson);

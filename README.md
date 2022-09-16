@@ -28,3 +28,24 @@ then run
 ```
 act --secret-file .env
 ```
+
+## volumes
+
+Make sure you have a volume
+```
+flyctl volumes list
+```
+
+If no volume is listed, check your region
+```
+flyctl regions list
+```
+
+And then create your volume
+```
+flyctl volumes create data --region gru --size 1
+```
+
+## sqlite
+https://sqlitebrowser.org/dl/
+https://sqlite.org/fiddle/index.html
