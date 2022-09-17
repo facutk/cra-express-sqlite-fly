@@ -3,12 +3,10 @@ import { useEffect, useState } from 'react';
 import Loader from './Loader';
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [hits, setHits] = useState();
 
   const loadData = async () => {
-    setIsLoading(true);
-
     const response = await fetch('/hits');
     const dataJson = await response.json();
 
@@ -17,7 +15,9 @@ const App = () => {
     setIsLoading(false);
   };
 
-  useEffect(() => loadData(), []);
+  useEffect(() => {
+    loadData();
+  }, []);
 
   return (
     <div>
