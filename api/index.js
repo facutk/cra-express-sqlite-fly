@@ -4,6 +4,8 @@ const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
 
+const nodemailer = require('nodemailer');
+
 let db;
 (async () => {
   db = await open({
@@ -44,6 +46,36 @@ app.get('/hits', async (req, res) => {
   console.log(count);
 
   res.json({ hits: count });
+});
+
+app.get('/mail', (req, res) => {
+  const transport = nodemailer.createTransport({
+    host: 'smtp-relay.sendinblue.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.SENDINBLUE_USERNAME,
+      pass: process.env.SENDINBLUE_PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    from: '"Example Team" <from@example.com>',
+    to: 'facu.tk@gmail.com',
+    subject: 'Nice Nodemailer test',
+    text: 'Hey there, it’s our first message sent with Nodemailer ;) ',
+    html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer',
+  };
+
+  transport.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(`/mail - [error]: ${error}`);
+    } else {
+      console.log(`/mail - [sucess]: ${info.response}`);
+    }
+
+    res.sendStatus(200);
+  });
 });
 
 app.listen(port, () => {
