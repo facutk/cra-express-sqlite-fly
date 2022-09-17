@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import Loader from './Loader';
+import Loader from '../Loader/Loader';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);

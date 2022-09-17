@@ -1,9 +1,12 @@
-import Hits from './Hits';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Hits } from './components';
 
 const App = () => (
-  <div>
-    <Hits />
-  </div>
+  <ChakraProvider>
+    <div>
+      <Hits />
+    </div>
+  </ChakraProvider>
 );
 
 export default App;
