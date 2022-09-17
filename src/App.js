@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import Loader from "./Loader";
+import Loader from './Loader';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -9,7 +9,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const response = await fetch("/hits");
+      const response = await fetch('/hits');
       const dataJson = await response.json();
 
       setData(dataJson);
@@ -17,7 +17,6 @@ const App = () => {
       setIsLoading(false);
     };
     fetchData();
-
   }, []);
 
   return (
