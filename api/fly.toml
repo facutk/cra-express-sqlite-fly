@@ -1,6 +1,6 @@
 # fly.toml file generated for snowy-frog-699 on 2022-09-15T00:11:47-03:00
 
-app = "snowy-frog-699"
+app = "morning-surf-1780"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
