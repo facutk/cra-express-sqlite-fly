@@ -67,6 +67,9 @@ And then create your volume
 flyctl volumes create data --region scl --size 1
 ```
 
+## Preview
+
+[https://morning-surf-1780.fly.dev/](https://morning-surf-1780.fly.dev/)
 
 ## sqlite
 
