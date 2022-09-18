@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Loader from '../Loader/Loader';
 
-const App = () => {
+const Hits = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [hits, setHits] = useState();
 
@@ -27,4 +27,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Hits;
