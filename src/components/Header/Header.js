@@ -20,12 +20,19 @@ import { BsPlusLg, BsSun, BsMoon } from 'react-icons/bs';
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
+  const handleCreate = (event) => {
+    event.preventDefault();
+    console.log('click! - create new customer');
+  };
+
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Box>
-            <BsPlusLg />
+            <Button onClick={handleCreate}>
+              <BsPlusLg />
+            </Button>
           </Box>
 
           <Flex alignItems={'center'}>
