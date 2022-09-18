@@ -29,5 +29,7 @@ module.exports = {
       'error',
       { rule: '^(is|has)[A-Z]([A-Za-z0-9]?)+' },
     ],
+    semi: ['error', 'always'],
+    'object-curly-spacing': ['error', 'always'],
   },
 };

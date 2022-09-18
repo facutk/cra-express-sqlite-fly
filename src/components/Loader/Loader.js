@@ -1,5 +1,7 @@
+import './loader.css';
+
 const Loader = () => (
-  <div>
+  <div className="splash">
     <span className="loading-dot" />
     <span className="loading-dot" />
     <span className="loading-dot" />
