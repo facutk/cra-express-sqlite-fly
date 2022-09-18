@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Center, Flex } from '@chakra-ui/react';
 
 import Loader from '../Loader/Loader';
 
@@ -20,10 +21,12 @@ const Hits = () => {
   }, []);
 
   return (
-    <div>
-      {isLoading && <Loader />}
-      {!isLoading && <>You are visitor #{hits}</>}
-    </div>
+    <Center w="100%">
+      <Flex w="100%" justify="center">
+        {isLoading && <Loader />}
+        {!isLoading && <p>You are visitor #{hits}</p>}
+      </Flex>
+    </Center>
   );
 };
 

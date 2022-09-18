@@ -1,7 +1,7 @@
 import {
   Button,
-  FormControl,
   Flex,
+  FormControl,
   Heading,
   Input,
   Stack,
@@ -17,19 +17,19 @@ const Login = () => {
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
       <Stack
-        spacing={4}
-        w={'full'}
-        maxW={'md'}
-        rounded={'xl'}
         boxShadow={'lg'}
+        maxW={'md'}
+        my={12}
         p={6}
-        my={12}>
+        rounded={'xl'}
+        spacing={4}
+        w={'full'}>
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
           Sign in
         </Heading>
         <Text
-          fontSize={{ base: 'sm', sm: 'md' }}
-          color={useColorModeValue('gray.800', 'gray.400')}>
+          color={useColorModeValue('gray.800', 'gray.400')}
+          fontSize={{ base: 'sm', sm: 'md' }}>
           You&apos;ll get an email with a login link
         </Text>
         <FormControl id="email">
