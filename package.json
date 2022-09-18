@@ -2,6 +2,10 @@
   "name": "cra-express-sqlite-fly",
   "version": "0.3.0",
   "private": true,
+  "proxy": "http://localhost:8080",
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "@chakra-ui/react": "^2.3.2",
     "@emotion/react": "^11.10.4",
@@ -23,7 +27,6 @@
     "eject": "react-scripts eject",
     "prepare": "husky install"
   },
-  "node": ">=16",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -36,7 +39,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080",
   "devDependencies": {
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",

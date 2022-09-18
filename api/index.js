@@ -1,10 +1,12 @@
 require('dotenv').config();
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
 
 const nodemailer = require('nodemailer');
+// const MagicLoginStrategy = require('passport-magic-login');
 
 let db;
 (async () => {
@@ -16,8 +18,13 @@ let db;
   await db.migrate();
 })();
 
+// const token = process.env.TOKEN || 'blabla';
+
 const app = express();
 const port = process.env.port || 8080;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get('/', (request, response) => {
   response.header(
@@ -48,7 +55,21 @@ app.get('/hits', async (req, res) => {
   res.json({ hits: count });
 });
 
-app.get('/mail', (req, res) => {
+app.post('/create-user', async (req, res) => {
+  const user = { user: res.body };
+  console.log(user);
+  res.json(user);
+  // await db.run('INSERT INTO users(id) VALUES()');
+});
+
+app.post('/create-job', async (req, res) => {
+  const job = { job: res.body };
+  console.log(job);
+  res.json(job);
+  // await db.run('INSERT INTO job(id) VALUES()');
+});
+
+const sendEmail = ({ to = 'example@email.com' }) => {
   const transport = nodemailer.createTransport({
     host: 'smtp-relay.sendinblue.com',
     port: 587,
@@ -59,12 +80,13 @@ app.get('/mail', (req, res) => {
     },
   });
 
+  const url = 'https://google.com.ar/';
+
   const mailOptions = {
     from: '"Example Team" <from@example.com>',
-    to: 'facu.tk@gmail.com',
+    to,
     subject: 'Nice Nodemailer test',
-    text: 'Hey there, it’s our first message sent with Nodemailer ;) ',
-    html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer',
+    text: `Hey there, it’s our first message sent with Nodemailer. ${url} ;)`,
   };
 
   transport.sendMail(mailOptions, (error, info) => {
@@ -73,9 +95,17 @@ app.get('/mail', (req, res) => {
     } else {
       console.log(`/mail - [sucess]: ${info.response}`);
     }
-
-    res.sendStatus(200);
   });
+};
+
+app.post('/mail', (req, res) => {
+  if (
+    process.env.ADMIN_ACCOUNT.trim().toLowerCase()
+    === req.body.email.trim().toLowerCase()
+  ) {
+    sendEmail({ to: req.body.email });
+  }
+  res.sendStatus(200);
 });
 
 app.listen(port, () => {

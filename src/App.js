@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
-import { Layout, Login, NoMatch } from './components';
-import { Home } from './routes';
+import { Layout, NoMatch } from './components';
+import { Home, Login } from './routes';
 
 const App = () => (
   <ChakraProvider>

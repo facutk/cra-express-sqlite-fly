@@ -12,6 +12,7 @@ processes = []
   PORT = "8080"
   NODE_ENV = "production"
   DATABASE_PATH = "/data/sqlite.db"
+  ADMIN_ACCOUNT = "bastadespammers@gmail.com"
 
 [experimental]
   allowed_public_ports = []
