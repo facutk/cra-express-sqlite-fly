@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
+const cookieParser = require('cookie-parser');
 
 const nodemailer = require('nodemailer');
 // const MagicLoginStrategy = require('passport-magic-login');
@@ -22,6 +23,8 @@ let db;
 
 const app = express();
 const port = process.env.port || 8080;
+
+app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -52,20 +55,20 @@ app.get('/hits', async (req, res) => {
   const { count } = await db.get('SELECT COUNT(*) AS count FROM hits');
   console.log(count);
 
-  res.json({ hits: count });
+  return res.json({ hits: count });
 });
 
 app.post('/create-user', async (req, res) => {
   const user = { user: res.body };
   console.log(user);
-  res.json(user);
+  return res.json(user);
   // await db.run('INSERT INTO users(id) VALUES()');
 });
 
 app.post('/create-job', async (req, res) => {
   const job = { job: res.body };
   console.log(job);
-  res.json(job);
+  return res.json(job);
   // await db.run('INSERT INTO job(id) VALUES()');
 });
 
@@ -105,7 +108,17 @@ app.post('/mail', (req, res) => {
   ) {
     sendEmail({ to: req.body.email });
   }
-  res.sendStatus(200);
+  return res.sendStatus(200);
+});
+
+app.get('/auth/token', (req, res) => {
+  if (req.params.token === process.env.TOKEN) {
+    return res
+      .cookie('customer-token', process.env.TOKEN)
+      .send('Cookie is set');
+  }
+
+  return res.sendStatus(401);
 });
 
 app.listen(port, () => {
