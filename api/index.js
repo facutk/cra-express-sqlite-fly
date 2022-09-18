@@ -80,7 +80,7 @@ const sendEmail = ({ to = 'example@email.com' }) => {
     },
   });
 
-  const url = 'https://google.com.ar/';
+  const url = `https://morning-surf-1780.fly.dev/auth/token?token=${process.env.TOKEN}`;
 
   const mailOptions = {
     from: '"Example Team" <from@example.com>',
