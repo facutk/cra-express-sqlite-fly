@@ -83,7 +83,7 @@ const sendEmail = ({ to = 'example@email.com' }) => {
     },
   });
 
-  const url = `https://morning-surf-1780.fly.dev/auth/token?token=${process.env.TOKEN}`;
+  const url = `https://morning-surf-1780.fly.dev/auth/token/${process.env.TOKEN}`;
 
   const mailOptions = {
     from: '"Example Team" <from@example.com>',
@@ -107,15 +107,26 @@ app.post('/mail', (req, res) => {
     === req.body.email.trim().toLowerCase()
   ) {
     sendEmail({ to: req.body.email });
+    return res.json({ status: 201 });
   }
-  return res.sendStatus(200);
+
+  return res.json({ status: 401 });
 });
 
-app.get('/auth/token', (req, res) => {
+app.get('/protected', (req, res) => {
+  console.log('protected: ', {
+    reqCookie: req.cookies,
+    process: process.env.TOKEN,
+  });
+  if (req.cookies.token === process.env.TOKEN) {
+    return res.sendStatus(200);
+  }
+  res.sendStatus(401);
+});
+
+app.get('/auth/token/:token', (req, res) => {
   if (req.params.token === process.env.TOKEN) {
-    return res
-      .cookie('customer-token', process.env.TOKEN)
-      .send('Cookie is set');
+    return res.cookie('token', req.params.token).send('Cookie is set');
   }
 
   return res.sendStatus(401);
