@@ -12,11 +12,10 @@ import {
 const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ email: event.target.elements.email.value });
     const email = event.target.elements.email.value;
 
     // POST a request with the users email or phone number to the server
-    fetch('/auth/magiclogin', {
+    fetch('/mail', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
