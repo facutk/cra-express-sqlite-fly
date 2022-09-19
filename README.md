@@ -13,10 +13,23 @@ cd cra-express-sqlite-fly/api
 npm start
 ```
 
+- login into fly.io
+
+```bash
+flyctl auth login
+```
+
 - get fly token
 
 ```bash
 flyctl auth token
+```
+
+- add fly secret
+
+```bash
+flyctl secrets set SENDINBLUE_USERNAME=<your-email>
+flyctl secrets set SENDINBLUE_PASSWORD=<your-password>
 ```
 
 - Configure fly.io secret at
@@ -51,8 +64,12 @@ flyctl regions list
 And then create your volume
 
 ```bash
-flyctl volumes create data --region gru --size 1
+flyctl volumes create data --region scl --size 1
 ```
+
+## Preview
+
+[https://morning-surf-1780.fly.dev/](https://morning-surf-1780.fly.dev/)
 
 ## sqlite
 

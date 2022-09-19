@@ -1,10 +1,13 @@
 require('dotenv').config();
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
+const cookieParser = require('cookie-parser');
 
 const nodemailer = require('nodemailer');
+// const MagicLoginStrategy = require('passport-magic-login');
 
 let db;
 (async () => {
@@ -16,8 +19,15 @@ let db;
   await db.migrate();
 })();
 
+// const token = process.env.TOKEN || 'blabla';
+
 const app = express();
 const port = process.env.port || 8080;
+
+app.use(cookieParser());
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get('/', (request, response) => {
   response.header(
@@ -45,10 +55,24 @@ app.get('/hits', async (req, res) => {
   const { count } = await db.get('SELECT COUNT(*) AS count FROM hits');
   console.log(count);
 
-  res.json({ hits: count });
+  return res.json({ hits: count });
 });
 
-app.get('/mail', (req, res) => {
+app.post('/create-user', async (req, res) => {
+  const user = { user: res.body };
+  console.log(user);
+  return res.json(user);
+  // await db.run('INSERT INTO users(id) VALUES()');
+});
+
+app.post('/create-job', async (req, res) => {
+  const job = { job: res.body };
+  console.log(job);
+  return res.json(job);
+  // await db.run('INSERT INTO job(id) VALUES()');
+});
+
+const sendEmail = ({ to = 'example@email.com' }) => {
   const transport = nodemailer.createTransport({
     host: 'smtp-relay.sendinblue.com',
     port: 587,
@@ -59,12 +83,13 @@ app.get('/mail', (req, res) => {
     },
   });
 
+  const url = `https://morning-surf-1780.fly.dev/auth/token/${process.env.TOKEN}`;
+
   const mailOptions = {
     from: '"Example Team" <from@example.com>',
-    to: 'facu.tk@gmail.com',
+    to,
     subject: 'Nice Nodemailer test',
-    text: 'Hey there, it’s our first message sent with Nodemailer ;) ',
-    html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer',
+    text: `Hey there, it’s our first message sent with Nodemailer. ${url} ;)`,
   };
 
   transport.sendMail(mailOptions, (error, info) => {
@@ -73,9 +98,38 @@ app.get('/mail', (req, res) => {
     } else {
       console.log(`/mail - [sucess]: ${info.response}`);
     }
-
-    res.sendStatus(200);
   });
+};
+
+app.post('/mail', (req, res) => {
+  if (
+    process.env.ADMIN_ACCOUNT.trim().toLowerCase()
+    === req.body.email.trim().toLowerCase()
+  ) {
+    sendEmail({ to: req.body.email });
+    return res.json({ status: 201 });
+  }
+
+  return res.json({ status: 401 });
+});
+
+app.get('/protected', (req, res) => {
+  console.log('protected: ', {
+    reqCookie: req.cookies,
+    process: process.env.TOKEN,
+  });
+  if (req.cookies.token === process.env.TOKEN) {
+    return res.sendStatus(200);
+  }
+  res.sendStatus(401);
+});
+
+app.get('/auth/token/:token', (req, res) => {
+  if (req.params.token === process.env.TOKEN) {
+    return res.cookie('token', req.params.token).send('Cookie is set');
+  }
+
+  return res.sendStatus(401);
 });
 
 app.listen(port, () => {

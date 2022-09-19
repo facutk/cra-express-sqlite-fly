@@ -10,12 +10,25 @@ import { MdAddTask } from 'react-icons/md';
 import { BiUserPlus } from 'react-icons/bi';
 
 const NewActions = () => {
-  const handleNewCustomer = () => {
-    console.log('click - new customer!');
+  const handleNewCustomer = async () => {
+    const result = await fetch('/create-user', {
+      method: 'POST',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify({
+        name: 'John Doe',
+        jobs: [],
+      }),
+    });
+    console.log('click - new customer!', { result });
   };
 
-  const handleNewJob = () => {
-    console.log('click - new job!');
+  const handleNewJob = async () => {
+    const result = await fetch('/create-job');
+    console.log('click - new job!', result);
   };
 
   return (
