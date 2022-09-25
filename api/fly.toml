@@ -12,7 +12,8 @@ processes = []
   PORT = "8080"
   NODE_ENV = "production"
   DATABASE_PATH = "/data/sqlite.db"
-  ADMIN_ACCOUNT = "bastadespammers@gmail.com"
+  ADMIN_ACCOUNT = "facu.tk@gmail.com"
+  BASE_URL = "https://sqlite.facu.tk"
 
 [experimental]
   allowed_public_ports = []
