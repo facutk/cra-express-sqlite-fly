@@ -10,7 +10,6 @@ const App = () => (
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
           <Route path="/auth/token/:token" element={<Auth />} />
           <Route path="*" element={<Login />} />
         </Route>
