@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Button,
   Flex,
@@ -10,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 
 const Login = () => {
+  const [isEmailSent, setIsEmailSent] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     const email = event.target.elements.email.value;
@@ -24,6 +26,7 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((json) => {
+        setIsEmailSent(true);
         if (json.success) {
           // The request successfully completed and the email to the user with the
           // magic login link was sent!
@@ -52,7 +55,7 @@ const Login = () => {
           spacing={4}
           w={'full'}>
           <Heading lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
-            Sign in
+            {isEmailSent ? 'Email sent' : 'Sign in'}
           </Heading>
           <Text
             color={useColorModeValue('gray.800', 'gray.400')}
@@ -64,6 +67,7 @@ const Login = () => {
               placeholder="your-email@example.com"
               _placeholder={{ color: 'gray.500' }}
               type="email"
+              disabled={isEmailSent}
             />
           </FormControl>
           <Stack spacing={6}>
@@ -71,6 +75,7 @@ const Login = () => {
               bg={'blue.400'}
               color={'white'}
               type="submit"
+              disabled={isEmailSent}
               _hover={{
                 bg: 'blue.500',
               }}>

@@ -83,7 +83,7 @@ const sendEmail = ({ to = 'example@email.com' }) => {
     },
   });
 
-  const url = `${process.env.BASE_URL}/auth/token/${process.env.TOKEN}`;
+  const url = `${process.env.BASE_URL}/#/?token=${process.env.TOKEN}`;
 
   const mailOptions = {
     from: '"Example Team" <from@example.com>',
@@ -134,7 +134,7 @@ app.get('/profile', (req, res) => {
   res.sendStatus(401);
 });
 
-app.get('/auth/token/:token', (req, res) => {
+app.get('/auth/:token', (req, res) => {
   if (req.params.token === process.env.TOKEN) {
     return res.cookie('token', req.params.token).redirect(process.env.BASE_URL);
   }
