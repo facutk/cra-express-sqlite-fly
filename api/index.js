@@ -30,14 +30,11 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', (request, response) => {
-  response.header(
-    'Cache-Control',
-    'private, no-cache, no-store, must-revalidate'
-  );
-  response.header('Expires', '-1');
-  response.header('Pragma', 'no-cache');
-  response.sendFile(path.join(__dirname, 'public/index.html'));
+app.get('/', (req, res) => {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.use(express.static('public'));
