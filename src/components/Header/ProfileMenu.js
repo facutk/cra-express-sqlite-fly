@@ -8,8 +8,17 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileMenu = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    fetch('/auth/logout').then(() => {
+      navigate('/login');
+    });
+  };
+
   return (
     <Menu>
       <MenuButton
@@ -39,7 +48,7 @@ const ProfileMenu = () => {
         <MenuDivider />
         <MenuItem>Your Servers</MenuItem>
         <MenuItem>Account Settings</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </MenuList>
     </Menu>
   );

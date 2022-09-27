@@ -134,6 +134,12 @@ app.get('/profile', (req, res) => {
   res.sendStatus(401);
 });
 
+app.get('/auth/logout', (req, res) => {
+  return res
+    .cookie('token', '', { expires: new Date(0) })
+    .redirect(process.env.BASE_URL);
+});
+
 app.get('/auth/:token', (req, res) => {
   if (req.params.token === process.env.TOKEN) {
     return res.cookie('token', req.params.token).redirect(process.env.BASE_URL);
