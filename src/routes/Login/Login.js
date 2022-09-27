@@ -17,7 +17,7 @@ const Login = () => {
     const email = event.target.elements.email.value;
 
     // POST a request with the users email or phone number to the server
-    fetch('/mail', {
+    fetch('/api/mail', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 
-import { Hits } from 'src/components';
+import Hits from './Hits';
 
 const Home = () => {
   return (

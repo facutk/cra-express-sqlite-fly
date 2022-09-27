@@ -14,9 +14,9 @@ const Layout = () => {
   const checkAuth = async () => {
     try {
       if (token) {
-        await fetch(`/auth/${token}`);
+        await fetch(`/api/auth/${token}`);
       }
-      await fetch('/profile').then((res) => res.json());
+      await fetch('/api/profile').then((res) => res.json());
       setIsAuth(true);
       return navigate('/');
     } catch {

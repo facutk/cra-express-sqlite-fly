@@ -22,6 +22,7 @@ let db;
 // const token = process.env.TOKEN || 'blabla';
 
 const app = express();
+
 const port = process.env.port || 8080;
 
 app.use(cookieParser());
@@ -41,15 +42,15 @@ app.get('/', (request, response) => {
 
 app.use(express.static('public'));
 
-app.get('/hello', (req, res) => {
+app.get('/api/hello', (req, res) => {
   res.send('Hello World!');
 });
 
-app.get('/foo', (req, res) => {
+app.get('/api/foo', (req, res) => {
   res.json({ foo: 'bar' });
 });
 
-app.get('/hits', async (req, res) => {
+app.get('/api/hits', async (req, res) => {
   await db.run('INSERT INTO hits(id) VALUES(null)');
 
   const { count } = await db.get('SELECT COUNT(*) AS count FROM hits');
@@ -58,14 +59,14 @@ app.get('/hits', async (req, res) => {
   return res.json({ hits: count });
 });
 
-app.post('/create-user', async (req, res) => {
+app.post('/api/create-user', async (req, res) => {
   const user = { user: res.body };
   console.log(user);
   return res.json(user);
   // await db.run('INSERT INTO users(id) VALUES()');
 });
 
-app.post('/create-job', async (req, res) => {
+app.post('/api/create-job', async (req, res) => {
   const job = { job: res.body };
   console.log(job);
   return res.json(job);
@@ -101,7 +102,7 @@ const sendEmail = ({ to = 'example@email.com' }) => {
   });
 };
 
-app.post('/mail', (req, res) => {
+app.post('/api/mail', (req, res) => {
   const adminEmail = process.env.ADMIN_ACCOUNT.trim().toLowerCase();
   const reqEmail = req.body.email.trim().toLowerCase();
   if (adminEmail === reqEmail) {
@@ -112,8 +113,8 @@ app.post('/mail', (req, res) => {
   return res.json({ status: 401 });
 });
 
-app.get('/protected', (req, res) => {
-  console.log('protected: ', {
+app.get('/api/protected', (req, res) => {
+  console.log('/api/protected: ', {
     reqCookie: req.cookies,
     process: process.env.TOKEN,
   });
@@ -123,8 +124,8 @@ app.get('/protected', (req, res) => {
   res.sendStatus(401);
 });
 
-app.get('/profile', (req, res) => {
-  console.log('protected: ', {
+app.get('/api/profile', (req, res) => {
+  console.log('/api/profile: ', {
     reqCookie: req.cookies,
     process: process.env.TOKEN,
   });
@@ -134,13 +135,13 @@ app.get('/profile', (req, res) => {
   res.sendStatus(401);
 });
 
-app.get('/auth/logout', (req, res) => {
+app.get('/api/auth/logout', (req, res) => {
   return res
     .cookie('token', '', { expires: new Date(0) })
     .redirect(process.env.BASE_URL);
 });
 
-app.get('/auth/:token', (req, res) => {
+app.get('/api/auth/:token', (req, res) => {
   if (req.params.token === process.env.TOKEN) {
     return res.cookie('token', req.params.token).redirect(process.env.BASE_URL);
   }
